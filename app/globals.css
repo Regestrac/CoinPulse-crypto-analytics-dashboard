@@ -215,6 +215,40 @@
       }
     }
   }
+
+
+
+  .trending-coins-table {
+    @apply bg-dark-500 overflow-hidden;
+
+    .name-cell {
+      @apply font-bold;
+
+      a {
+        @apply pl-1 md:pl-2 py-1 md:py-2 xl:py-1 flex items-center gap-2 md:gap-3;
+
+        img {
+          @apply rounded-full size-8 md:size-9;
+        }
+
+        p {
+          @apply text-sm md:text-base;
+        }
+      }
+    }
+
+    .change-cell {
+      @apply font-medium py-4 pr-3 md:pr-5;
+    }
+
+    .price-cell {
+      @apply font-bold pr-5 text-sm max-w-full truncate;
+    }
+
+    .price-change {
+      @apply flex gap-1 items-center text-sm font-medium;
+    }
+  }
 }
 
 /* Custom Scrollbar Styles */
