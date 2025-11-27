@@ -33,3 +33,9 @@ type TrendingCoin = {
     };
   };
 };
+
+type QueryParams = Record<string, string | number | boolean | undefined>;
+
+type CoinGeckoErrorBody = {
+  error?: string;
+};
