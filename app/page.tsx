@@ -1,4 +1,5 @@
 import DataTable from '@/components/DataTable'
+import CoinOverview from '@/components/home/CoinOverview';
 import { fetcher } from '@/lib/coingecko.actions';
 import { cn, formatCurrency, formatPercentage } from '@/lib/utils';
 import { TrendingDown, TrendingUp } from 'lucide-react';
@@ -48,22 +49,12 @@ const columns: DataTableColumn<TrendingCoin>[] = [
 ]
 
 const page = async () => {
-  const coin = await fetcher<CoinDetailsData>('/coins/bitcoin', { dex_pair_format: 'symbol' });
-
   const trendingCoins = await fetcher<{ coins: TrendingCoin[] }>('/search/trending', undefined, 300)
 
   return (
     <main className='main-container'>
       <section className='home-grid'>
-        <div id="coin-overview">
-          <div className="header pt-2">
-            <Image src={coin?.image?.large} alt={coin?.name} width={56} height={56} />
-            <div className='info'>
-              <p>{coin?.name} / {coin?.symbol?.toUpperCase()}</p>
-              <h1>{coin?.market_data?.current_price?.usd}</h1>
-            </div>
-          </div>
-        </div>
+        <CoinOverview />
         <p>Trending Coins</p>
         <DataTable
           columns={columns}
