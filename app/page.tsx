@@ -1,13 +1,18 @@
 import CoinOverview from '@/components/home/CoinOverview';
 import TrendingCoins from '@/components/home/TrendingCoins';
+import { Suspense } from 'react';
 
 const page = () => {
   return (
     <main className='main-container'>
       <section className='home-grid'>
-        <CoinOverview />
+        <Suspense fallback={<div>Loading Overview...</div>}>
+          <CoinOverview />
+        </Suspense>
 
-        <TrendingCoins />
+        <Suspense fallback={<div>Loading Trending Coins...</div>}>
+          <TrendingCoins />
+        </Suspense>
       </section>
       <section className="w-full mt-7 space-y-4">
         Categories
