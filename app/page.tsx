@@ -1,6 +1,7 @@
 import CoinOverview from '@/components/home/CoinOverview';
 import CoinOverviewFallback from '@/components/home/CoinOverviewFallback';
 import TrendingCoins from '@/components/home/TrendingCoins';
+import TrendingCoinsFallback from '@/components/home/TrendingCoinsFallback';
 import { Suspense } from 'react';
 
 const page = () => {
@@ -11,7 +12,7 @@ const page = () => {
           <CoinOverview />
         </Suspense>
 
-        <Suspense fallback={<div>Loading Trending Coins...</div>}>
+        <Suspense fallback={<TrendingCoinsFallback />}>
           <TrendingCoins />
         </Suspense>
       </section>

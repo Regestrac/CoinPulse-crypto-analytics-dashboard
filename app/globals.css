@@ -256,8 +256,6 @@
     }
   }
 
-
-
   #coin-overview-fallback {
     @apply w-full h-full xl:col-span-2 px-2 bg-dark-500 rounded-xl;
 
@@ -291,6 +289,58 @@
 
     .chart-skeleton {
       @apply h-full w-full rounded-xl;
+    }
+  }
+
+  #trending-coins-fallback {
+    @apply w-full flex flex-col justify-center h-full py-4 bg-dark-500 rounded-xl;
+
+    h4 {
+      @apply text-xl md:text-2xl font-semibold mb-2 px-5;
+    }
+
+    .trending-coins-table {
+      @apply bg-dark-500 overflow-hidden;
+
+      .name-cell {
+        @apply font-bold;
+      }
+
+      .name-link {
+        @apply pl-1 md:pl-2 py-1 md:py-2 xl:py-1 flex items-center gap-2 md:gap-3;
+      }
+
+      .name-image {
+        @apply rounded-full size-8 md:size-9;
+      }
+
+      .name-line {
+        @apply h-4 w-24;
+      }
+
+      .change-cell {
+        @apply font-medium py-4 pr-3 md:pr-5;
+      }
+
+      .price-cell {
+        @apply font-bold pr-5 text-sm max-w-full truncate;
+      }
+
+      .price-change {
+        @apply flex gap-1 items-center text-sm font-medium;
+      }
+    }
+
+    .change-line {
+      @apply h-4 w-16;
+    }
+
+    .price-line {
+      @apply h-4 w-20;
+    }
+
+    .change-icon {
+      @apply h-3.5 w-3.5 rounded-full;
     }
   }
 }
