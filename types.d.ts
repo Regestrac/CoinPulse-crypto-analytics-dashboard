@@ -88,3 +88,19 @@ type CoinDetailsData = {
   };
   tickers: Ticker[];
 };
+
+type OHLCData = [number, number, number, number, number];
+
+type CandlestickChartProps = {
+  data?: OHLCData[];
+  liveOhlcv?: OHLCData | null;
+  coinId: string;
+  height?: number;
+  children?: React.ReactNode;
+  mode?: 'historical' | 'live';
+  initialPeriod?: Period;
+  liveInterval: '1s' | '1m';
+  setLiveInterval: (interval: '1s' | '1m') => void;
+}
+
+type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
