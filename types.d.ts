@@ -99,8 +99,16 @@ type CandlestickChartProps = {
   children?: React.ReactNode;
   mode?: 'historical' | 'live';
   initialPeriod?: Period;
-  liveInterval: '1s' | '1m';
-  setLiveInterval: (interval: '1s' | '1m') => void;
-}
+  liveInterval?: '1s' | '1m';
+  setLiveInterval?: (interval: '1s' | '1m') => void;
+};
 
 type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
+
+type Category = {
+  name: string;
+  top_3_coins: string[];
+  market_cap_change_24h: number;
+  market_cap: number;
+  volume_24h: number;
+};

@@ -1,3 +1,4 @@
+import Categories from '@/components/home/Categories';
 import CoinOverview from '@/components/home/CoinOverview';
 import CoinOverviewFallback from '@/components/home/CoinOverviewFallback';
 import TrendingCoins from '@/components/home/TrendingCoins';
@@ -17,7 +18,7 @@ const page = () => {
         </Suspense>
       </section>
       <section className="w-full mt-7 space-y-4">
-        Categories
+        <Categories />
       </section>
     </main>
   )
