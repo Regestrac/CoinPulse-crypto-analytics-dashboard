@@ -20,7 +20,7 @@ const Header = () => {
             Home
           </Link>
 
-          <p>Dearch Modal</p>
+          <p>Search Modal</p>
 
           <Link href="/coins" className={cn('nav-link', { 'is-active': pathname === '/coins' })}>
             All Coins

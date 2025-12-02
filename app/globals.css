@@ -463,6 +463,58 @@
       @apply h-3.5 w-3.5 rounded-full;
     }
   }
+
+  #coins-page {
+    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full items-center gap-10 justify-center;
+
+    .content {
+      @apply flex flex-col w-full space-y-5;
+    }
+
+    h4 {
+      @apply text-2xl;
+    }
+
+    .coins-table {
+      @apply bg-dark-500 rounded-xl max-h-fit overflow-hidden;
+
+      .rank-cell {
+        @apply pl-5 max-w-20 ! py-5 font-medium text-purple-100;
+
+        a {
+          @apply absolute inset-0 z-10;
+        }
+      }
+
+      .token-cell {
+        @apply py-3 font-semibold;
+
+        .token-info {
+          @apply flex items-center gap-3;
+
+          p {
+            @apply max-w-full truncate;
+          }
+        }
+      }
+
+      .price-cell {
+        @apply py-4 font-medium;
+      }
+
+      .change-cell {
+        @apply font-medium;
+      }
+
+      .change-value {
+        @apply flex gap-1 items-center font-medium;
+      }
+
+      .market-cap-cell {
+        @apply pr-5 font-medium;
+      }
+    }
+  }
 }
 
 /* Custom Scrollbar Styles */
