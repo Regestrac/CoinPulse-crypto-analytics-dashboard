@@ -1,7 +1,7 @@
-import DataTable from '../DataTable';
+import DataTable from '@/components/DataTable';
 
 const TrendingCoinsFallback = () => {
-    const columns = [
+  const columns = [
     {
       header: 'Name',
       cell: () => (

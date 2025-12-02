@@ -407,6 +407,62 @@
       @apply font-medium;
     }
   }
+
+  #categories-fallback {
+    @apply pt-8 mt-5 w-full bg-dark-500 rounded-xl overflow-hidden;
+
+    h4 {
+      @apply text-xl md:text-2xl font-semibold mb-2 pl-5;
+    }
+
+    .category-cell {
+      @apply pl-5 font-bold;
+    }
+
+    .top-gainers-cell {
+      @apply flex gap-1 mr-5;
+    }
+
+    .change-header-cell {
+      @apply font-medium;
+    }
+
+    .change-cell {
+      @apply flex gap-1 items-center pl-2 text-center font-medium;
+    }
+
+    .market-cap-cell {
+      @apply font-medium;
+    }
+
+    .volume-cell {
+      @apply font-medium;
+    }
+
+    .category-skeleton {
+      @apply h-4 w-32;
+    }
+
+    .coin-skeleton {
+      @apply h-7 w-7 rounded-full;
+    }
+
+    .value-skeleton-sm {
+      @apply h-4 w-16;
+    }
+
+    .value-skeleton-md {
+      @apply h-4 w-20;
+    }
+
+    .value-skeleton-lg {
+      @apply h-4 w-24;
+    }
+
+    .change-icon {
+      @apply h-3.5 w-3.5 rounded-full;
+    }
+  }
 }
 
 /* Custom Scrollbar Styles */
@@ -425,5 +481,28 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #171a34;
+}
+
+/* Table Custom Scrollbar */
+.custom-scrollbar [data-slot='table-container'] {
+  overflow-y: auto;
+}
+
+.custom-scrollbar [data-slot='table-container']::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.custom-scrollbar [data-slot='table-container']::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar [data-slot='table-container']::-webkit-scrollbar-thumb {
+  background: #1e2833;
+  border-radius: 8px;
+}
+
+.custom-scrollbar [data-slot='table-container']::-webkit-scrollbar-thumb:hover {
   background: #171a34;
 }
