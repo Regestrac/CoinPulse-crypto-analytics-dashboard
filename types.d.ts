@@ -145,3 +145,9 @@ type CoinMarketData = {
   atl_date: string;
   last_updated: string;
 };
+
+type Pagination = {
+  currentPage: number;
+  totalPages: number;
+  hasMorePages: boolean;
+};

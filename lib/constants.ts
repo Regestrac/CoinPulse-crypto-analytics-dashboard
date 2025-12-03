@@ -98,3 +98,5 @@ export const getChartConfig = (
       '$' + price.toLocaleString(undefined, { maximumFractionDigits: 2 }),
   },
 });
+
+export const ELLIPSIS = 'ellipsis' as const;
