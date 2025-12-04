@@ -203,3 +203,18 @@ type WebSocketMessage = {
   channel?: string;
   identifier?: string;
 };
+
+type PoolData = {
+  id: string;
+  address: string;
+  name: string;
+  network: string;
+};
+
+type LiveDataProps = {
+  coinId: string;
+  poolId: string;
+  coin: CoinDetailsData;
+  coinOHLCData?: OHLCData;
+  children?: React.ReactNode;
+};
