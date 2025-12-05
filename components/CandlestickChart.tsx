@@ -93,6 +93,7 @@ const CandlestickChart = ({
       chartRef.current = null;
       candleSeriesRef.current = null;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height, period]);
 
   useEffect(() => {

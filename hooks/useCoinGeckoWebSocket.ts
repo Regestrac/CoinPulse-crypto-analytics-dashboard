@@ -9,14 +9,13 @@ export const useCoinGeckoWebSocket = ({
   poolId,
   liveInterval,
 }: UseCoinGeckoWebSocketProps): UseCoinGeckoWebSocketReturn => {
-  const wsRef = useRef<WebSocket | null>(null);
-  const subscribed = useRef(<Set<string>>new Set());
-
   const [price, setPrice] = useState<ExtendedPriceData | null>(null);
   const [trades, setTrades] = useState<Trade[]>([]);
   const [ohlcv, setOhlcv] = useState<OHLCData | null>(null);
-
   const [isWsReady, setIsWsReady] = useState(false);
+
+  const wsRef = useRef<WebSocket | null>(null);
+  const subscribed = useRef(<Set<string>>new Set());
 
   useEffect(() => {
     const ws = new WebSocket(WS_BASE);

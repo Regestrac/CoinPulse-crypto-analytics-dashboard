@@ -215,6 +215,5 @@ type LiveDataProps = {
   coinId: string;
   poolId: string;
   coin: CoinDetailsData;
-  coinOHLCData?: OHLCData;
-  children?: React.ReactNode;
+  coinOHLCData?: OHLCData[];
 };

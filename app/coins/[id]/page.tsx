@@ -11,7 +11,7 @@ const CoinDetails = async ({ params }: NextPageProps) => {
     fetcher<CoinDetailsData>(`/coins/${id}`, {
       dex_pair_format: 'contract_address',
     }),
-    fetcher<OHLCData>(`/coins/${id}/ohlc`, {
+    fetcher<OHLCData[]>(`/coins/${id}/ohlc`, {
       vs_currency: 'usd',
       days: 1,
       interval: 'hourly',
@@ -68,9 +68,7 @@ const CoinDetails = async ({ params }: NextPageProps) => {
           poolId={pool.id}
           coin={coinData}
           coinOHLCData={coinOHLCData}
-        >
-          <h4>Exchange Listings</h4>
-        </LiveDataWrapper>
+        />
       </section>
 
       <section className="secondary">
