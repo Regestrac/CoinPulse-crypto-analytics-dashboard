@@ -217,3 +217,12 @@ type LiveDataProps = {
   coin: CoinDetailsData;
   coinOHLCData?: OHLCData[];
 };
+
+type LiveCoinHeaderProps = {
+  name: string;
+  image: string;
+  livePrice?: number;
+  livePriceChangePercentage24h: number;
+  priceChangePercentage30d: number;
+  priceChange24h: number;
+};

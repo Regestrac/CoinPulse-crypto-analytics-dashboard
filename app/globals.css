@@ -479,7 +479,7 @@
       @apply bg-dark-500 rounded-xl max-h-fit overflow-hidden;
 
       .rank-cell {
-        @apply pl-5 max-w-20 ! py-5 font-medium text-purple-100;
+        @apply pl-5 max-w-20! py-5 font-medium text-purple-100;
 
         a {
           @apply absolute inset-0 z-10;
@@ -549,11 +549,11 @@
       }
 
       .page-link {
-        @apply hover:bg-dark-400 ! rounded-sm text-base cursor-pointer;
+        @apply hover:bg-dark-400! rounded-sm text-base cursor-pointer;
       }
 
       .page-link-active {
-        @apply bg-green-500 ! text-dark-900 font-semibold;
+        @apply bg-green-500! text-dark-900 font-semibold;
       }
     }
   }
@@ -634,7 +634,7 @@
     @apply size-full xl:col-span-2;
 
     .divider {
-      @apply my-8 ! bg-purple-600 !;
+      @apply my-8! bg-purple-600!;
     }
 
     .trend {
@@ -674,6 +674,46 @@
 
       .time-cell {
         @apply pr-5;
+      }
+    }
+  }
+
+  #coin-header {
+    @apply space-y-5 w-full;
+
+    h3 {
+      @apply text-3xl font-medium;
+    }
+
+    .info {
+      @apply flex gap-3 items-center;
+
+      img {
+        @apply size-11.25 sm:size-12.5 xl:size-19.25;
+      }
+    }
+
+    .price-row {
+      @apply flex gap-4;
+
+      h1 {
+        @apply text-3xl sm:text-5xl xl:text-6xl font-semibold;
+      }
+    }
+
+    .stats {
+      @apply grid grid-cols-3 mt-8 gap-4 sm:gap-6 w-fit;
+
+      li {
+        @apply text-base border-r last:border-none border-purple-600 flex flex-col gap-2;
+
+        .label {
+          @apply text-purple-100 max-sm:text-sm;
+        }
+
+        .value {
+          @apply flex gap-1 flex-1 items-end text-base font-medium;
+        }
       }
     }
   }

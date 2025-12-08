@@ -1,13 +1,16 @@
+'use client';
+
 import { Separator } from "@/components/ui/separator"
 import CandlestickChart from "@/components/CandlestickChart"
 import { useCoinGeckoWebSocket } from "@/hooks/useCoinGeckoWebSocket";
 import { formatCurrency, timeAgo } from "@/lib/utils";
 import DataTable from "@/components/DataTable";
 import { useState } from "react";
+import CoinHeader from "./CoinHeader";
 
 const LiveDataWrapper = ({ coinId, poolId, coin, coinOHLCData }: LiveDataProps) => {
   const [liveInterval, setLiveInterval] = useState<'1s' | '1m'>('1s');
-  const { trades, ohlcv } = useCoinGeckoWebSocket({ coinId, poolId, liveInterval });
+  const { trades, ohlcv, price } = useCoinGeckoWebSocket({ coinId, poolId, liveInterval });
 
   const tradeColumns: DataTableColumn<Trade>[] = [
     {
@@ -43,7 +46,17 @@ const LiveDataWrapper = ({ coinId, poolId, coin, coinOHLCData }: LiveDataProps) 
 
   return (
     <section id='live-data-wrapper'>
-      <p>Coin Header</p>
+      <CoinHeader
+        name={coin.name}
+        image={coin.image.large}
+        livePrice={price?.usd ?? coin.market_data.current_price.usd}
+        livePriceChangePercentage24h={
+          price?.change24h ?? coin.market_data.price_change_percentage_24h_in_currency.usd
+        }
+        priceChangePercentage30d={coin.market_data.price_change_percentage_30d_in_currency.usd}
+        priceChange24h={coin.market_data.price_change_24h_in_currency.usd}
+      />
+
       <Separator className="divider" />
 
       <div className="trend">
