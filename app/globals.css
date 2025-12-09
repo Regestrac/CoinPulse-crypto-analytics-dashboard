@@ -717,6 +717,70 @@
       }
     }
   }
+
+  #converter {
+    @apply w-full space-y-5;
+
+    h4 {
+      @apply text-2xl font-semibold;
+    }
+
+    .panel {
+      @apply space-y-2 bg-dark-500 px-5 py-7 rounded-lg;
+    }
+
+    .input-wrapper {
+      @apply bg-dark-400 h-12 w-full rounded-md flex items-center justify-between py-4 pr-4;
+
+      .input {
+        @apply flex-1 text-lg! border-none font-medium bg-dark-400! focus-visible:ring-0 shadow-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+      }
+
+      .coin-info {
+        @apply flex items-center gap-1;
+
+        p {
+          @apply font-semibold text-base text-purple-100;
+        }
+      }
+    }
+
+    .divider {
+      @apply relative flex justify-center items-center my-4;
+
+      .line {
+        @apply h-px z-10 w-full bg-dark-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+      }
+
+      .icon {
+        @apply size-8 z-20 bg-dark-400 rounded-full p-2 text-green-500;
+      }
+    }
+
+    .output-wrapper {
+      @apply bg-dark-400 h-12 w-full rounded-md flex items-center justify-between py-4 pl-4;
+
+      p {
+        @apply text-base font-medium;
+      }
+
+      .select-trigger {
+        @apply w-fit! border-none! cursor-pointer! h-12! bg-dark-400! hover:bg-dark-400! focus-visible:ring-0!;
+
+        .select-value {
+          @apply font-semibold! text-xs! text-purple-100!;
+        }
+      }
+
+      .select-content[data-converter] {
+        @apply bg-dark-400 max-h-125;
+
+        .select-item {
+          @apply cursor-pointer hover:bg-dark-500!;
+        }
+      }
+    }
+  }
 }
 
 /* Custom Scrollbar Styles */

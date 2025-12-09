@@ -226,3 +226,9 @@ type LiveCoinHeaderProps = {
   priceChangePercentage30d: number;
   priceChange24h: number;
 };
+
+type ConverterProps = {
+  symbol: string;
+  icon: string;
+  priceList: Record<string, number>;
+}
