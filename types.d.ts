@@ -232,3 +232,24 @@ type ConverterProps = {
   icon: string;
   priceList: Record<string, number>;
 }
+
+type SearchCoin = {
+  id: string;
+  name: string;
+  symbol: string;
+  market_cap_rank: number | null;
+  thumb: string;
+  large: string;
+  data: {
+    price?: number;
+    price_change_percentage_24h: number;
+  };
+}
+
+type SearchItemCoin = SearchCoin | TrendingCoin['item'];
+
+type SearchItemProps = {
+  coin: SearchItemCoin;
+  onSelect: (coinId: string) => void;
+  isActiveName: boolean;
+};
