@@ -77,7 +77,7 @@ const LiveDataWrapper = ({ coinId, poolId, coin, coinOHLCData }: LiveDataProps) 
 
       {tradeColumns && (
         <div className="trades">
-          <hr>Recent Trades</hr>
+          <h4>Recent Trades</h4>
 
           <DataTable
             columns={tradeColumns}
