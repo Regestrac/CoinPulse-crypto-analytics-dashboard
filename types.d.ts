@@ -103,7 +103,7 @@ type CandlestickChartProps = {
   setLiveInterval?: (interval: '1s' | '1m') => void;
 };
 
-type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
+type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly';
 
 type Category = {
   name: string;

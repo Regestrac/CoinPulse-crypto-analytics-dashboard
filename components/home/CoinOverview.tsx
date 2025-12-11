@@ -7,18 +7,30 @@ import CoinOverviewFallback from './CoinOverviewFallback';
 
 const CoinOverview = async () => {
   let coin, coinOHLCData;
-  try {
-    [coin, coinOHLCData] = await Promise.all([
-      fetcher<CoinDetailsData>('/coins/bitcoin', {
-        dex_pair_format: 'symbol',
-      }),
-      fetcher<OHLCData[]>('/coins/bitcoin/ohlc', {
+
+  const coinDataPromise = fetcher<CoinDetailsData>('/coins/bitcoin', {
+    dex_pair_format: 'symbol',
+  });
+
+  const ohlcDataPromise = (async () => {
+    try {
+      return await fetcher<OHLCData[]>('/coins/bitcoin/ohlc', {
         vs_currency: 'usd',
         days: 1,
         interval: 'hourly',
         precision: 'full',
-      }),
-    ]);
+      });
+    } catch {
+      return await fetcher<OHLCData[]>(`/coins/bitcoin/ohlc`, {
+        vs_currency: 'usd',
+        days: 1,
+        precision: 'full',
+      });
+    }
+  })();
+
+  try {
+    [coin, coinOHLCData] = await Promise.all([coinDataPromise, ohlcDataPromise]);
   } catch (error) {
     console.error('Error fetching coin overview:', error);
     return <CoinOverviewFallback />;

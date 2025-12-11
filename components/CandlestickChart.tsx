@@ -47,8 +47,18 @@ const CandlestickChart = ({
       startTransition(() => {
         setOhlcData(newData ?? []);
       });
-    } catch (e) {
-      console.error('Failed to fetch OHLCData', e);
+    } catch {
+      const { days } = PERIOD_CONFIG[selectedPeriod];
+
+      const newData = await fetcher<OHLCData[]>(`/coins/${coinId}/ohlc`, {
+        vs_currency: 'usd',
+        days,
+        precision: 'full',
+      });
+
+      startTransition(() => {
+        setOhlcData(newData ?? []);
+      });
     }
   };
 
@@ -93,7 +103,7 @@ const CandlestickChart = ({
       chartRef.current = null;
       candleSeriesRef.current = null;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height, period]);
 
   useEffect(() => {
