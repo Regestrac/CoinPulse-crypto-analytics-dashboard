@@ -11,7 +11,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { Button } from './ui/button';
-import { searchCoins } from '@/lib/coingecko.actions';
+import { getTrendingCoins, searchCoins } from '@/lib/coingecko.actions';
 import { Search as SearchIcon, TrendingDown, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 import { cn, formatPercentage } from '@/lib/utils';
@@ -23,11 +23,11 @@ const SEARCH_LIMIT = 10;
 
 const SearchItem = ({ coin, onSelect, isActiveName }: SearchItemProps) => {
   const isSearchCoin =
-    typeof coin.data?.price_change_percentage_24h === 'number';
+    typeof coin?.data?.price_change_percentage_24h === 'number';
 
   const change = isSearchCoin
-    ? (coin as SearchCoin).data?.price_change_percentage_24h ?? 0
-    : (coin as TrendingCoin['item']).data.price_change_percentage_24h?.usd ?? 0;
+    ? (coin as SearchCoin)?.data?.price_change_percentage_24h ?? 0
+    : (coin as TrendingCoin['item'])?.data?.price_change_percentage_24h?.usd ?? 0;
 
   return (
     <CommandItem
@@ -63,11 +63,7 @@ const SearchItem = ({ coin, onSelect, isActiveName }: SearchItemProps) => {
   );
 };
 
-export const SearchModal = ({
-  initialTrendingCoins = [],
-}: {
-  initialTrendingCoins: TrendingCoin[];
-}) => {
+export const SearchModal = ({ initialTrendingCoins = [] }: { initialTrendingCoins: TrendingCoin[]; }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -81,10 +77,13 @@ export const SearchModal = ({
     300,
     [searchQuery]
   );
+  const { data: trendingCoinsList = [] } = useSWR<TrendingCoin[]>(
+    open ? 'trending-coins' : null,
+    () => getTrendingCoins(),
+    { revalidateOnFocus: false },
+  );
 
-  const { data: searchResults = [], isValidating: isSearching } = useSWR<
-    SearchCoin[]
-  >(
+  const { data: searchResults = [], isValidating: isSearching } = useSWR<SearchCoin[]>(
     debouncedQuery ? ['coin-search', debouncedQuery] : null,
     ([, query]) => searchCoins(query as string),
     {
@@ -111,7 +110,7 @@ export const SearchModal = ({
   };
 
   const hasQuery = debouncedQuery.length > 0;
-  const trendingCoins = initialTrendingCoins.slice(0, TRENDING_LIMIT);
+  const trendingCoins = initialTrendingCoins.length ? initialTrendingCoins.slice(0, TRENDING_LIMIT) : trendingCoinsList.slice(0, TRENDING_LIMIT);
   const showTrending = !hasQuery && trendingCoins.length > 0;
 
   const isSearchEmpty = !isSearching && !hasQuery && !showTrending;

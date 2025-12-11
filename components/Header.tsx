@@ -1,5 +1,6 @@
 "use client";
 
+import { SearchModal } from '@/components/SearchModal';
 import { cn } from '@/lib/utils';
 import Image from 'next/image'
 import Link from 'next/link'
@@ -20,7 +21,7 @@ const Header = () => {
             Home
           </Link>
 
-          <p>Search Modal</p>
+          <SearchModal initialTrendingCoins={[]}/>
 
           <Link href="/coins" className={cn('nav-link', { 'is-active': pathname === '/coins' })}>
             All Coins
