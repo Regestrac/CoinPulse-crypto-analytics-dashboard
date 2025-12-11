@@ -8,17 +8,28 @@ import Link from "next/link";
 const CoinDetails = async ({ params }: NextPageProps) => {
   const { id } = await params;
 
-  const [coinData, coinOHLCData] = await Promise.all([
-    fetcher<CoinDetailsData>(`/coins/${id}`, {
-      dex_pair_format: 'contract_address',
-    }),
-    fetcher<OHLCData[]>(`/coins/${id}/ohlc`, {
-      vs_currency: 'usd',
-      days: 1,
-      interval: 'hourly',
-      precision: 'full',
-    }),
-  ]);
+  const coinDataPromise = fetcher<CoinDetailsData>(`/coins/${id}`, {
+    dex_pair_format: 'contract_address',
+  });
+
+  const ohlcDataPromise = (async () => {
+    try {
+      return await fetcher<OHLCData[]>(`/coins/${id}/ohlc`, {
+        vs_currency: 'usd',
+        days: 1,
+        interval: 'hourly',
+        precision: 'full',
+      });
+    } catch {
+      return await fetcher<OHLCData[]>(`/coins/${id}/ohlc`, {
+        vs_currency: 'usd',
+        days: 1,
+        precision: 'full',
+      });
+    }
+  })();
+
+  const [coinData, coinOHLCData] = await Promise.all([coinDataPromise, ohlcDataPromise]);
 
   const platform = coinData.asset_platform_id ? coinData.detail_platforms?.[coinData.asset_platform_id] : null;
   const network = platform?.geckoterminal_url.split('/')[3] || null;

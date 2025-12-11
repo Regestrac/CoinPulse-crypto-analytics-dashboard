@@ -22,6 +22,7 @@ const CandlestickChart = ({
   mode = 'historical',
   liveInterval,
   setLiveInterval,
+  isWSReady,
 }: CandlestickChartProps) => {
   const [period, setPeriod] = useState(initialPeriod);
   const [ohlcData, setOhlcData] = useState<OHLCData[]>(data ?? []);
@@ -169,7 +170,7 @@ const CandlestickChart = ({
                 key={value}
                 className={liveInterval === value ? 'config-button-active' : 'config-button'}
                 onClick={() => setLiveInterval && setLiveInterval(value)}
-                disabled={isPending}
+                disabled={isPending || !isWSReady}
               >
                 {label}
               </button>

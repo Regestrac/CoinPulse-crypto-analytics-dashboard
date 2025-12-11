@@ -101,6 +101,7 @@ type CandlestickChartProps = {
   initialPeriod?: Period;
   liveInterval?: '1s' | '1m';
   setLiveInterval?: (interval: '1s' | '1m') => void;
+  isWSReady?: boolean;
 };
 
 type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly';
