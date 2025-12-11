@@ -31,8 +31,8 @@ const CoinDetails = async ({ params }: NextPageProps) => {
 
   const [coinData, coinOHLCData] = await Promise.all([coinDataPromise, ohlcDataPromise]);
 
-  const platform = coinData.asset_platform_id ? coinData.detail_platforms?.[coinData.asset_platform_id] : null;
-  const network = platform?.geckoterminal_url.split('/')[3] || null;
+  const platform = coinData.asset_platform_id ? coinData?.detail_platforms?.[coinData?.asset_platform_id] : null;
+  const network = platform?.geckoterminal_url?.split('/')?.[3] || null;
   const contractAddress = platform?.contract_address || null;
 
   const pool = await getPools(id, network, contractAddress);
