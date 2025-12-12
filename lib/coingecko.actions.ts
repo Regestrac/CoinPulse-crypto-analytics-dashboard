@@ -2,11 +2,17 @@
 
 import qs from 'query-string';
 
-const BASE_URL = process.env.COINGECKO_BASE_URL;
-const API_KEY = process.env.COINGECKO_API_KEY;
+function getBaseUrl() {
+  const url = process.env.COINGECKO_BASE_URL;
+  if (!url) throw new Error('Could not get base url');
+  return url;
+}
 
-if (!BASE_URL) throw new Error('Could not get base url');
-if (!API_KEY) throw new Error('Could not get api key');
+function getApiKey() {
+  const key = process.env.COINGECKO_API_KEY;
+  if (!key) throw new Error('Could not get api key');
+  return key;
+}
 
 export async function fetcher<T>(
   endpoint: string,
@@ -15,7 +21,7 @@ export async function fetcher<T>(
 ): Promise<T> {
   const url = qs.stringifyUrl(
     {
-      url: `${BASE_URL}/${endpoint}`,
+      url: `${getBaseUrl()}/${endpoint}`,
       query: params,
     },
     { skipEmptyString: true, skipNull: true },
@@ -23,7 +29,7 @@ export async function fetcher<T>(
 
   const response = await fetch(url, {
     headers: {
-      'x-cg-demo-api-key': API_KEY,
+      'x-cg-demo-api-key': getApiKey(),
       'Content-Type': 'application/json',
     } as Record<string, string>,
     next: { revalidate },
