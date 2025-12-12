@@ -72,6 +72,12 @@ export async function getPools(
   }
 };
 
+export async function getTrendingCoins(): Promise<TrendingCoin[]> {
+  const data = await fetcher<{ coins: TrendingCoin[] }>('/search/trending');
+
+  return data.coins ?? [];
+};
+
 export async function searchCoins(query: string): Promise<SearchCoin[]> {
   const data = await fetcher<{ coins: SearchCoin[] }>('/search', { query });
 

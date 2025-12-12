@@ -166,14 +166,20 @@ const CandlestickChart = ({
           <div className="button-group">
             <span className="text-sm mx-2 font-medium text-purple-100/50">Update Frequency:</span>
             {LIVE_INTERVAL_BUTTONS.map(({ value, label }) => (
-              <button
-                key={value}
-                className={liveInterval === value ? 'config-button-active' : 'config-button'}
-                onClick={() => setLiveInterval && setLiveInterval(value)}
-                disabled={isPending || !isWSReady}
-              >
-                {label}
-              </button>
+              <span key={value} className="relative group">
+                <button
+                  className={liveInterval === value ? 'config-button-active' : 'config-button'}
+                  onClick={() => setLiveInterval && setLiveInterval(value)}
+                  disabled={isPending || !isWSReady}
+                >
+                  {label}
+                </button>
+                {!isWSReady && (
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded text-xs text-white min-w-70 text-center bg-gray-800 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    Update frequency is unavailable for CoinGecko demo API. Upgrade to use this feature.
+                  </span>
+                )}
+              </span>
             ))}
           </div>
         )}
