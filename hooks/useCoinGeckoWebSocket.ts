@@ -2,7 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const WS_BASE = `${process.env.NEXT_PUBLIC_COINGECKO_WEBSOCKET_URL}?x_cg_pro_api_key=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`;
+let wsUrlCache: string | null = null;
+
+const fetchWsUrl = async (): Promise<string> => {
+  if (wsUrlCache) return wsUrlCache;
+
+  const res = await fetch('/api/ws-url');
+  if (!res.ok) throw new Error('Failed to fetch WebSocket URL');
+
+  const { url } = await res.json();
+  if (typeof url !== 'string') throw new Error('Invalid WebSocket URL');
+
+  wsUrlCache = url;
+  return wsUrlCache;
+};
 
 export const useCoinGeckoWebSocket = ({
   coinId,
@@ -15,72 +28,83 @@ export const useCoinGeckoWebSocket = ({
   const [isWsReady, setIsWsReady] = useState(false);
 
   const wsRef = useRef<WebSocket | null>(null);
-  const subscribed = useRef(<Set<string>>new Set());
+  const subscribed = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    const ws = new WebSocket(WS_BASE);
-    wsRef.current = ws;
+    let cancelled = false;
 
-    const send = (payload: Record<string, unknown>) => ws.send(JSON.stringify(payload));
+    const init = async () => {
+      try {
+        const url = await fetchWsUrl();
+        if (cancelled) return;
 
-    const handleMessage = (event: MessageEvent) => {
-      const msg: WebSocketMessage = JSON.parse(event.data);
+        const ws = new WebSocket(url);
+        wsRef.current = ws;
 
-      if (msg.type === 'ping') {
-        send({ type: 'pong' });
-        return;
-      }
-      if (msg.type === 'confirm_subscription') {
-        const { channel } = JSON.parse(msg?.identifier ?? '');
+        const send = (payload: Record<string, unknown>) => ws.send(JSON.stringify(payload));
 
-        subscribed.current.add(channel);
-      }
-      if (msg.c === 'C1') {
-        setPrice({
-          usd: msg.p ?? 0,
-          coin: msg.i,
-          price: msg.p,
-          change24h: msg.pp,
-          marketCap: msg.m,
-          volume24h: msg.v,
-          timestamp: msg.t,
-        });
-      }
-      if (msg.c === 'G2') {
-        const newTrade: Trade = {
-          price: msg.pu,
-          value: msg.vo,
-          timestamp: msg.t ?? 0,
-          type: msg.ty,
-          amount: msg.to,
+        ws.onopen = () => setIsWsReady(true);
+
+        ws.onmessage = (event: MessageEvent) => {
+          const msg: WebSocketMessage = JSON.parse(event.data);
+
+          if (msg.type === 'ping') {
+            send({ type: 'pong' });
+            return;
+          }
+          if (msg.type === 'confirm_subscription') {
+            const { channel } = JSON.parse(msg?.identifier ?? '');
+            subscribed.current.add(channel);
+          }
+          if (msg.c === 'C1') {
+            setPrice({
+              usd: msg.p ?? 0,
+              coin: msg.i,
+              price: msg.p,
+              change24h: msg.pp,
+              marketCap: msg.m,
+              volume24h: msg.v,
+              timestamp: msg.t,
+            });
+          }
+          if (msg.c === 'G2') {
+            const newTrade: Trade = {
+              price: msg.pu,
+              value: msg.vo,
+              timestamp: msg.t ?? 0,
+              type: msg.ty,
+              amount: msg.to,
+            };
+            setTrades((prev) => [newTrade, ...prev].slice(0, 7));
+          }
+          if (msg.ch === 'G3') {
+            const timestamp = msg.t ?? 0;
+            const candle: OHLCData = [
+              timestamp,
+              Number(msg.o ?? 0),
+              Number(msg.h ?? 0),
+              Number(msg.l ?? 0),
+              Number(msg.c ?? 0),
+            ];
+            setOhlcv(candle);
+          }
         };
 
-        setTrades((prev) => [newTrade, ...prev].slice(0, 7));
-      }
-      if (msg.ch === 'G3') {
-        const timestamp = msg.t ?? 0;
-
-        const candle: OHLCData = [
-          timestamp,
-          Number(msg.o ?? 0),
-          Number(msg.h ?? 0),
-          Number(msg.l ?? 0),
-          Number(msg.c ?? 0),
-        ];
-
-        setOhlcv(candle);
+        ws.onclose = () => setIsWsReady(false);
+        ws.onerror = () => setIsWsReady(false);
+      } catch {
+        setIsWsReady(false);
       }
     };
 
-    ws.onopen = () => setIsWsReady(true);
+    init();
 
-    ws.onmessage = handleMessage;
-
-    ws.onclose = () => setIsWsReady(false);
-
-    ws.onerror = () => setIsWsReady(false);
-
-    return () => ws.close();
+    return () => {
+      cancelled = true;
+      wsRef.current?.close();
+      wsRef.current = null;
+      wsUrlCache = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -97,7 +121,6 @@ export const useCoinGeckoWebSocket = ({
           identifier: JSON.stringify({ channel }),
         });
       });
-
       subscribed.current.clear();
     };
 
