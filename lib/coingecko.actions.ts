@@ -2,14 +2,16 @@
 
 import qs from 'query-string';
 
+const isPro = !!process.env.COINGECKO_PRO_API_KEY;
+
 function getBaseUrl() {
-  const url = process.env.COINGECKO_BASE_URL;
+  const url = isPro ? process.env.COINGECKO_PRO_BASE_URL : process.env.COINGECKO_BASE_URL;
   if (!url) throw new Error('Could not get base url');
   return url;
 }
 
 function getApiKey() {
-  const key = process.env.COINGECKO_API_KEY;
+  const key = isPro ? process.env.COINGECKO_PRO_API_KEY : process.env.COINGECKO_API_KEY;
   if (!key) throw new Error('Could not get api key');
   return key;
 }
@@ -29,7 +31,7 @@ export async function fetcher<T>(
 
   const response = await fetch(url, {
     headers: {
-      'x-cg-demo-api-key': getApiKey(),
+      [isPro ? 'x-cg-pro-api-key' : 'x-cg-demo-api-key']: getApiKey(),
       'Content-Type': 'application/json',
     } as Record<string, string>,
     next: { revalidate },
